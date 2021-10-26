@@ -73,8 +73,10 @@ export class Footer extends React.Component<FooterProps, {}> {
        * horizontally after rotation. Only ContentView seems to escape this bug. */
       return (
         <SafeAreaInsetsContext.Consumer>
-          {(edgeInsets: EdgeInsets) => {
+          {(edgeInsets:any) => {
             const unsafeAreaCoverHeight: number = edgeInsets.bottom;
+            console.log("unsafeAreaCoverHeight",unsafeAreaCoverHeight,HEADER_RETRACTION_DISTANCE, HEADER_RETRACTION_DISTANCE,FOOTER_HIDDEN_HEIGHT,
+            add(FOOTER_REVEALED_HEIGHT, unsafeAreaCoverHeight))
 
             let heightStyle;
             switch (retractionStyle) {
@@ -88,13 +90,15 @@ export class Footer extends React.Component<FooterProps, {}> {
               case RetractionStyle.retractToHidden:
                 heightStyle = {
                   height: interpolateNode(
-                    this.props.scrollY,
-                    [-HEADER_RETRACTION_DISTANCE, HEADER_RETRACTION_DISTANCE],
-                    [
-                      FOOTER_HIDDEN_HEIGHT,
-                      add(FOOTER_REVEALED_HEIGHT, unsafeAreaCoverHeight),
-                    ],
-                    Extrapolate.CLAMP,
+                   this.props.scrollY._value,
+                   {
+                     inputRange: [-HEADER_RETRACTION_DISTANCE, HEADER_RETRACTION_DISTANCE],
+                    outputRange: [
+                       FOOTER_HIDDEN_HEIGHT,
+                       add(FOOTER_REVEALED_HEIGHT, unsafeAreaCoverHeight),
+                     ],
+                    extrapolate: Extrapolate.CLAMP,
+                   }
                   ),
                 };
                 break;

@@ -19,7 +19,7 @@ import {
   DEFAULT_HEADER_REVEALED_HEIGHT,
 } from './TabLocationView';
 import {URL_BAR_VIEW_PADDING_VERTICAL} from './URLBarView';
-const {interpolate, Extrapolate} = Animated;
+const {interpolateNode, Extrapolate} = Animated;
 
 interface RetractibleHeaderProps {
   config: HeaderConfig;
@@ -68,25 +68,28 @@ export class RetractibleHeader extends React.Component<
     ];
     const outputTitleOpacity: Array<number> = [0, 1];
 
-    this.animatedNavBarTranslateYPortrait = interpolate(
-      this.props.scrollY,
-      input,
-      outputTranslateYPortrait,
-      Animated.Extrapolate.CLAMP,
+    this.animatedNavBarTranslateYPortrait = interpolateNode(
+      this.props.scrollY._value,
+      {
+        inputRange:input,
+       outputRange: outputTranslateYPortrait,
+       extrapolate: Animated.Extrapolate.CLAMP
+      },
     );
 
-    this.animatedNavBarTranslateYLandscape = interpolate(
-      this.props.scrollY,
-      input,
-      outputTranslateYLandscape,
-      Animated.Extrapolate.CLAMP,
+    this.animatedNavBarTranslateYLandscape = interpolateNode(
+      this.props.scrollY._value,
+      {inputRange:input,
+       outputRange: outputTranslateYLandscape,
+       extrapolate: Animated.Extrapolate.CLAMP},
     );
 
-    this.animatedTitleOpacity = Animated.interpolate(
-      this.props.scrollY,
-      input,
-      outputTitleOpacity,
-      Animated.Extrapolate.CLAMP,
+    this.animatedTitleOpacity = Animated.interpolateNode(
+      this.props.scrollY._value,
+      {inputRange:input,
+       outputRange: outputTitleOpacity,
+       extrapolate: Animated.Extrapolate.CLAMP},
+       
     );
   }
 
@@ -132,7 +135,7 @@ export class RetractibleHeader extends React.Component<
               break;
             case RetractionStyle.retractToHidden:
               heightStyle = {
-                height: Animated.interpolate(
+                height: Animated.interpolateNode(
                   this.animatedNavBarTranslateYLandscape,
                   {
                     inputRange: [HEADER_HIDDEN_HEIGHT, HEADER_REVEALED_HEIGHT],
@@ -144,7 +147,10 @@ export class RetractibleHeader extends React.Component<
                         GRADIENT_PROGRESS_BAR_HEIGHT,
                     ],
                     extrapolate: Extrapolate.CLAMP,
+                    
+                  
                   },
+                  
                 ),
               };
               break;

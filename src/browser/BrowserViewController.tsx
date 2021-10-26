@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Dimensions, View} from 'react-native';
-import Animated from 'react-native-reanimated';
+import {Dimensions, View,Animated} from 'react-native';
+// import Animated from 'react-native-reanimated';
 import {connect} from 'react-redux';
-import {BrowserConfig, defaultConfig} from './browserConfig.tsx';
+import {BrowserConfig, defaultConfig} from './browserConfig';
 import {WholeStoreState} from '../store/store';
 import {isPortrait, updateOrientation} from '../store/uiState';
 import {DRAG_END_INITIAL} from './bothBars/barSpring';
@@ -14,7 +14,7 @@ import {
 } from './header/TabLocationView';
 import {DefaultBarAwareWebView} from './webView/BarAwareWebView';
 import {WebViewBackdrop} from './webView/WebViewBackdrop';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+// import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import Home from '../screens/Home.tsx';
 // import About from '../screens/About.tsx';
 // import Blog from '../screens/Blog.tsx';

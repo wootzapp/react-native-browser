@@ -164,13 +164,18 @@ export class BarAwareWebView extends React.Component<
   // const MyWebView = ({ children, ...rest }) => React.createElement(WebView, props, children);
 
   render() {
+    const { headerConfig, activeTab, tabs, style, children, ...rest } = this.props;
     return (
       <AnimatedIosWebView
+        // source={{
+        //   uri: this.props.URL,
+        // }}
         source={{
-          uri: this.props.URL,
-        }}
+          uri: tabs[activeTab].url,
+      }}
         // TODO: will have to solve how best to build one webView for each tab, give it a unique ref, and allow animation between tabs.
-        ref={webViews}
+        // ref={webViews}
+        ref={webViews.get(activeTab)}
         // onScroll={Animated.event(
         //   [
         //     {

@@ -2,16 +2,16 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {View, Text} from 'react-native';
 import {store} from './src/store/store';
-import {BrowserViewControllerConnected} from './src/browser/BrowserViewController.tsx';
+import {BrowserViewControllerConnected} from './src/browser/BrowserViewController';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {Blog} from './src/browser/Blog.tsx';
-import {About} from './src/browser/About.tsx';
-import {Games} from './src/browser/Games.tsx';
-import {Experiments} from './src/browser/Experiments.tsx';
-import {Music} from './src/browser/Music.tsx';
+import {Blog} from './src/browser/Blog';
+import {About} from './src/browser/About';
+import {Games} from './src/browser/Games';
+import {Experiments} from './src/browser/Experiments';
+import {Music} from './src/browser/Music';
 // import Blog from '../screens/Blog.tsx';
 // import Experiments from '../screens/Experiments.tsx';
 // import Games from '../screens/Games.tsx';
@@ -22,6 +22,8 @@ interface Props {}
 interface State {}
 class AppContainer extends React.Component<Props, State> {
   render() {
+
+        // return ( <View style={{flex:1}}><Text>Hello</Text></View>)
     const {} = this.props;
     const Stack = createNativeStackNavigator();
 

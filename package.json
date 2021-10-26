@@ -1,78 +1,57 @@
 {
-  "name": "reactNativeWebBrowserApp",
+  "name": "reactnativewebbrowser",
   "version": "0.0.1",
-  "description": "Fully-featured cross-platform Web Browser, made in React Native",
-  "main": "dist/app.js",
-  "types": "dist/app.d.ts",
-  "files": [
-    "dist",
-    "LICENSE",
-    "README.md"
-  ],
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint .",
-    "original_postinstall": "jetify",
-    "build-ts": "tsc --project ./tsconfig.build.json --watch",
-    "build": "tsc --watch",
-    "prepare": "npm run build"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shirakaba/react-native-web-browser-app.git"
-  },
-  "bugs": {
-    "url": "https://github.com/shirakaba/react-native-web-browser-app/issues"
-  },
-  "homepage": "https://github.com/shirakaba/react-native-web-browser-app#readme",
-  "keywords": [
-    "retractible bars",
-    "LinguaBrowse",
-    "browser",
-    "web browser",
-    "React Native",
-    "React"
-  ],
   "dependencies": {
     "@react-navigation/native": "^6.0.4",
     "@react-navigation/native-stack": "^6.2.2",
     "@reduxjs/toolkit": "^1.6.1",
-    "expo": "^42.0.4",
     "react": "17.0.2",
-    "react-native": "0.65.1",
+    "react-native": "0.66.1",
     "react-native-gesture-handler": "^1.10.3",
-    "react-native-reanimated": "^2.2.2",
+    "react-native-reanimated": "^2.2.3",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.8.0",
     "react-native-unimodules": "^0.14.8",
     "react-native-vector-icons": "^8.1.0",
-    "react-native-webview": "^11.14.0",
+    "react-native-webview": "^11.14.1",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/runtime": "^7.15.4",
-    "@react-native-community/eslint-config": "^3.0.1",
-    "@types/jest": "^27.0.2",
-    "@types/react": "^17.0.27",
-    "@types/react-native": "^0.65.3",
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/jest": "^26.0.23",
+    "@types/react-native": "^0.65.0",
     "@types/react-test-renderer": "^17.0.1",
-    "babel-jest": "^27.2.4",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "eslint": "^7.32.0",
-    "jest": "^27.2.4",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.14.0",
+    "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.66.2",
-    "react-native-codegen": "^0.0.7",
     "react-test-renderer": "17.0.2",
-    "typescript": "^4.4.3"
+    "typescript": "^3.8.3"
+  },
+  "resolutions": {
+    "@types/react": "^17"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }

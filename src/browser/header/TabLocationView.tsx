@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextInput, TextInputProps, NativeSyntheticEvent, TextInputSubmitEditingEventData, View, ViewProps, StyleSheet, StyleProp, TextStyle } from "react-native";
+import { TextInput, TextInputProps, NativeSyntheticEvent, TextInputSubmitEditingEventData, View, ViewProps, StyleSheet, StyleProp, TextStyle, Alert } from "react-native";
 import { ToolbarButton, ToolbarButtonProps } from "../bothBars/ToolbarButton";
 import { PrivacyIndicatorView } from "../../browser/header/PrivacyIndicatorView";
 import { connect } from 'react-redux';
@@ -79,7 +79,9 @@ class DisplayTextField extends React.Component<DisplayTextFieldProps & TextInput
     };
 
     private readonly onSubmitEditing = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
+        // console.log("e.nativeEvent.text",e,e.nativeEvent.text)
         this.props.submitUrlBarTextToWebView(e.nativeEvent.text, this.props.activeTab);
+        // Alert.alert("hi");
     };
 
     render(){

@@ -84,6 +84,7 @@ export const navigationSliceReducer = navigationSlice.reducer;
 
 export function getWebView(tab: string){
     const webViewRef = webViews.get(tab);
+    console.log("webViewRef",webViewRef)
     if(!webViewRef){
         console.error(`Unable to find webViewRef for tab "${tab}".`);
         return null;
@@ -104,7 +105,9 @@ export function getWebView(tab: string){
 export function submitUrlBarTextToWebView(text: string, tab?: string): AppThunk {
     return function(dispatch, getState) {
         const chosenTab: string = tab || getState().navigation.activeTab;
+        console.log("=====>submitUrlBarTextToWebViewtab",tab,chosenTab)
         const webView = getWebView(chosenTab);
+        console.log("=====>submitUrlBarTextToWebViewtab",webView)
         if(!webView){
             return Promise.resolve();
         }
