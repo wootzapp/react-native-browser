@@ -1,14 +1,13 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {WholeStoreState} from '../../store/store';
+// import {WholeStoreState} from '../../store/store';
 import {
   webViews,
-  updateUrlBarText,
+  // updateUrlBarText,
   TabStateRecord,
-  setProgressOnWebView,
-  updateWebViewNavigationState,
-} from '../../store/navigationState';
-import {ViewProps, Platform, ViewStyle} from 'react-native';
+  
+} from '../../store/navigationsatateBysaga';
+import {ViewProps, Platform, ViewStyle, View} from 'react-native';
 import {WebView} from 'react-native-webview';
 import {
   IOSWebViewProps,
@@ -22,6 +21,9 @@ import {
   DEFAULT_HEADER_REVEALED_HEIGHT,
 } from '../header/TabLocationView';
 import {useNavigation} from '@react-navigation/native';
+import { updateUrlBarText,setProgressOnWebView,updateWebViewNavigationState } from '../../store/action';
+
+import { NavigationContext} from '@react-navigation/native-stack';
 
 export type BarAwareWebViewType = (
   props: BarAwareWebViewOwnProps,
@@ -55,24 +57,36 @@ export class BarAwareWebView extends React.Component<
   BarAwareWebViewProps & ViewProps,
   {}
 > {
+
+     
+  constructor(props:any){
+       super(props)
+  }
+
+
+  
+
   componentDidMount() {
-    this.props.navigation.addListener('didFocus', payload => {
-      this.forceUpdate();
-    });
+    // this.props.navigation.addListener('didFocus', payload => {
+    //   this.forceUpdate();
+    // });
+   const contextdata = NavigationContext;
+    console.log("this,.props",contextdata)
   }
   componentWillUnmount() {
-    this.props.navigation.removeListener('didFocus');
+    // this.props.navigation.removeListener('didFocus');
   }
 
   private readonly onLoadStarted = (event: WebViewNavigationEvent) => {
     const {url, navigationType, canGoBack, canGoForward} = event.nativeEvent;
-    console.log('canGoBack', canGoBack, canGoForward);
-    // if (canGoBack) {
-    //   this.props.navigation.goBack();
-    //   return;
-    // }
+    // console.log('canGoBack', canGoBack, canGoForward,url);
+    console.log("event",event.nativeEvent);
+    if (canGoBack) {
+      // this.props.navigation.goBack();
+      return;
+    }
     //TODO: Navigation code goes to here...........
-    // TODO: 1. check previous route = new route if yes then dont do any thing else push to another page
+   // TODO: 1. check previous route = new route if yes then dont do any thing else push to another page
 
     if (url === 'https://www.birchlabs.co.uk/') {
       this.props.navigation.navigate('Home');
@@ -90,12 +104,12 @@ export class BarAwareWebView extends React.Component<
       this.props.navigation.navigate('Home');
     }
 
-    // TODO: handle errors
-    // this.props.updateWebViewNavigationState({
-    //   canGoBack,
-    //   canGoForward,
-    //   tab: this.props.activeTab,
-    // });
+    // //TODO: handle errors
+    this.props.updateWebViewNavigationState({
+      canGoBack,
+      canGoForward,
+      // tab: this.props.activeTab,
+    });
   };
 
   private readonly onLoadCommitted = (event: WebViewNavigationEvent) => {
@@ -116,11 +130,11 @@ export class BarAwareWebView extends React.Component<
   };
 
   private readonly onLoadFinished = (event: WebViewNavigationEvent) => {
-    const {url, navigationType, canGoBack, canGoForward} = event.nativeEvent;
+    // const {url, navigationType, canGoBack, canGoForward} = event.nativeEvent;
 
-    console.log(
-      `[WebView onLoadFinished] url ${url} navigationType ${navigationType}`,
-    );
+    // console.log(
+    //   `[WebView onLoadFinished] url ${url} navigationType ${navigationType}`,
+    // );
 
     // if (url === 'https://www.birchlabs.co.uk/') {
     //   this.props.navigation.navigate('Home');
@@ -153,18 +167,19 @@ export class BarAwareWebView extends React.Component<
     const {url, progress, canGoBack, canGoForward} = event.nativeEvent;
     console.log(`[WebView onLoadProgress] progress ${progress}`);
 
-    this.props.setProgressOnWebView({progress, tab: this.props.activeTab});
-    this.props.updateWebViewNavigationState({
-      canGoBack,
-      canGoForward,
-      tab: this.props.activeTab,
-    });
+    this.props.setProgressOnWebView(progress);
+    this.props.updateWebViewNavigationState(
+      {canGoBack,
+      canGoForward,}
+      // tab: this.props.activeTab,
+    );
   };
 
   // const MyWebView = ({ children, ...rest }) => React.createElement(WebView, props, children);
 
   render() {
     const { headerConfig, activeTab, tabs, style, children, ...rest } = this.props;
+     console.log(" activeTab, tabs", activeTab, tabs)
     return (
       <AnimatedIosWebView
         // source={{
@@ -231,7 +246,7 @@ export class BarAwareWebView extends React.Component<
         //     useNativeDriver: true,
         //   },
         // )}
-        onLoadStart={this.onLoadStarted}
+        onLoadStart={this.onLoadStarted}    //--1
         // onLoadCommit={this.onLoadCommitted}
         // onLoadEnd={this.onLoadFinished}
         onLoadProgress={this.onProgress}
@@ -240,17 +255,28 @@ export class BarAwareWebView extends React.Component<
   }
 }
 
+
+
+
+
+const mapStateToprops = (state)=>({
+  activeTab: state.navigation1.activeTab,
+  tabs: state.navigation1.tabs,
+})
+
+
+
+
+
 export const BarAwareWebViewConnected = connect(
-  (wholeStoreState: WholeStoreState) => {
-    // console.log(`wholeStoreState`, wholeStoreState);
-    return {
-      activeTab: wholeStoreState.navigation.activeTab,
-      tabs: wholeStoreState.navigation.tabs,
-    };
-  },
+  mapStateToprops,
   {
     updateUrlBarText,
     setProgressOnWebView,
     updateWebViewNavigationState,
   },
 )(BarAwareWebView);
+function retun(children: any) {
+  throw new Error('Function not implemented.');
+}
+

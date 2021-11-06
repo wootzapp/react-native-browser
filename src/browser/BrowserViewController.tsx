@@ -3,8 +3,8 @@ import {Dimensions, View,Animated} from 'react-native';
 // import Animated from 'react-native-reanimated';
 import {connect} from 'react-redux';
 import {BrowserConfig, defaultConfig} from './browserConfig';
-import {WholeStoreState} from '../store/store';
-import {isPortrait, updateOrientation} from '../store/uiState';
+// import {WholeStoreState} from '../store/store';
+// import {isPortrait, updateOrientation} from '../store/uiState';
 import {DRAG_END_INITIAL} from './bothBars/barSpring';
 import {FooterConnected} from './footer/Footer';
 import {RetractibleHeaderConnected} from './header/RetractibleHeader';
@@ -14,6 +14,7 @@ import {
 } from './header/TabLocationView';
 import {DefaultBarAwareWebView} from './webView/BarAwareWebView';
 import {WebViewBackdrop} from './webView/WebViewBackdrop';
+import { updateOrientation } from '../store/uiState';
 // import {createNativeStackNavigator} from '@react-navigation/native-stack';
 // import Home from '../screens/Home.tsx';
 // import About from '../screens/About.tsx';
@@ -68,12 +69,12 @@ const BrowserViewControllerUX = {
 
 interface Props {
   config?: BrowserConfig;
-  updateOrientation: typeof updateOrientation;
+  // updateOrientation: typeof updateOrientation;
 }
 
 interface State {}
 
-export class BrowserViewController extends React.Component<Props, State> {
+export class BrowserViewController extends React.Component<any> {
   private readonly scrollY;
   private readonly scrollEndDragVelocity = new Animated.Value(DRAG_END_INITIAL);
 
@@ -92,10 +93,11 @@ export class BrowserViewController extends React.Component<Props, State> {
   }
 
   private readonly onOrientationChange = () => {
-    this.props.updateOrientation(isPortrait() ? 'portrait' : 'landscape');
+    // this.props.updateOrientation(isPortrait() ? 'portrait' : 'landscape');
   };
 
   componentDidMount() {
+    console.log("this.props.navigation",this.props.navigation);
     Dimensions.addEventListener('change', this.onOrientationChange);
   }
 
@@ -176,12 +178,14 @@ export class BrowserViewController extends React.Component<Props, State> {
   }
 }
 
+
+const mapStateToprops = (state)=>({
+        
+})
+
 export const BrowserViewControllerConnected = connect(
-  (wholeStoreState: WholeStoreState) => {
-    // console.log(`wholeStoreState`, wholeStoreState);
-    return {};
-  },
+  mapStateToprops,
   {
     updateOrientation: updateOrientation,
-  },
+  }
 )(BrowserViewController);

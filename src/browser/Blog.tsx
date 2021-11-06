@@ -177,10 +177,7 @@ export class Blog extends React.Component<Props, State> {
 }
 
 export const BrowserViewControllerConnected = connect(
-  (wholeStoreState: WholeStoreState) => {
-    // console.log(`wholeStoreState`, wholeStoreState);
-    return {};
-  },
+ null,
   {
     updateOrientation: updateOrientation,
   },

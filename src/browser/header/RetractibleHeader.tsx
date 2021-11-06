@@ -204,7 +204,7 @@ export const RetractibleHeaderConnected = connect(
   (wholeStoreState: WholeStoreState) => {
     // console.log(`wholeStoreState`, wholeStoreState);
     return {
-      urlBarText: wholeStoreState.navigation.urlBarText,
+      urlBarText: wholeStoreState.navigation1.urlBarText,
       orientation: wholeStoreState.ui.orientation,
     };
   },

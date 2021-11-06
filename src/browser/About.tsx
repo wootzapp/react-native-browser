@@ -3,7 +3,7 @@ import {Dimensions, View} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {connect} from 'react-redux';
 import {BrowserConfig, defaultConfig} from './browserConfig.tsx';
-import {WholeStoreState} from '../store/store';
+// import {WholeStoreState} from '../store/store';
 import {isPortrait, updateOrientation} from '../store/uiState';
 import {DRAG_END_INITIAL} from './bothBars/barSpring';
 import {FooterConnected} from './footer/Footer';
@@ -96,11 +96,11 @@ export class About extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    Dimensions.addEventListener('change', this.onOrientationChange);
+    // Dimensions.addEventListener('change', this.onOrientationChange);
   }
 
   componentWillUnmount() {
-    Dimensions.removeEventListener('change', this.onOrientationChange);
+    // Dimensions.removeEventListener('change', this.onOrientationChange);
   }
 
   render() {
@@ -175,12 +175,9 @@ export class About extends React.Component<Props, State> {
     );
   }
 }
-
+   
 export const BrowserViewControllerConnected = connect(
-  (wholeStoreState: WholeStoreState) => {
-    // console.log(`wholeStoreState`, wholeStoreState);
-    return {};
-  },
+  null,
   {
     updateOrientation: updateOrientation,
   },

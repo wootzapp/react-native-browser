@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, TouchableOpacityProps, TouchableOpacity } from "react-native";
 import { ToolbarButton, ToolbarButtonProps } from "./ToolbarButton";
-import { goBackOnWebView, goForwardOnWebView, reloadWebView, stopWebView } from "../../store/navigationState";
+import { goBackOnWebView, goForwardOnWebView, reloadWebView, stopWebView } from "../../store/navigationsatateBysaga";
 import { connect } from "react-redux";
 import { WholeStoreState } from "../../store/store";
 
@@ -32,7 +32,7 @@ export const BackButtonConnected = connect(
     (wholeStoreState: WholeStoreState) => {
         // May support pop-out history in future.
         return {
-            canGoBack: wholeStoreState.navigation.tabs[wholeStoreState.navigation.activeTab].canGoBack,
+            canGoBack: wholeStoreState.navigation1.tabs[wholeStoreState.navigation1.activeTab].canGoBack,
         };
     },
     {
@@ -65,7 +65,7 @@ export const ForwardButtonConnected = connect(
     (wholeStoreState: WholeStoreState) => {
         // May support pop-out history in future.
         return {
-            canGoForward: wholeStoreState.navigation.tabs[wholeStoreState.navigation.activeTab].canGoForward,
+            canGoForward: wholeStoreState.navigation1.tabs[wholeStoreState.navigation1.activeTab].canGoForward,
         };
     },
     {
@@ -108,8 +108,9 @@ class StopReloadButton extends React.Component<StopReloadButtonProps & ToolbarBu
     }
 }
 export const StopReloadButtonConnected = connect(
-    (wholeStoreState: WholeStoreState) => {
-        const { activeTab, tabs } = wholeStoreState.navigation;
+    (state) => {
+        const { activeTab, tabs } = state.navigation1;
+        console.log("{ activeTab, tabs }",{ activeTab, tabs });
         // console.log(`[StopReloadButtonConnected] wholeStoreState.navigation`, wholeStoreState.navigation);
         return {
             loading: tabs[activeTab].loadProgress !== 1,

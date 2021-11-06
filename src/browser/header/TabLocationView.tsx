@@ -3,11 +3,13 @@ import { TextInput, TextInputProps, NativeSyntheticEvent, TextInputSubmitEditing
 import { ToolbarButton, ToolbarButtonProps } from "../bothBars/ToolbarButton";
 import { PrivacyIndicatorView } from "../../browser/header/PrivacyIndicatorView";
 import { connect } from 'react-redux';
-import { updateUrlBarText, submitUrlBarTextToWebView } from "../../store/navigationState";
-import { WholeStoreState } from "../../store/store";
-import Animated, { Transitioning } from "react-native-reanimated";
+// import {  submitUrlBarTextToWebView } from "../../store/navigationsatateBysaga";
+// import { WholeStoreState } from "../../store/store"
+import Animated, { cos, Transitioning } from "react-native-reanimated";
 import { HeaderConfig } from "../browserConfig";
 import { RetractionStyle } from "../bothBars/BarConfig";
+import { submitUrlBarTextToWebView, updateUrlBarText } from "../../store/action";
+
 
 const TabLocationViewUX = {
     Spacing: 8,
@@ -32,7 +34,7 @@ class LockImageView extends React.Component<{ locked: boolean } & ToolbarButtonP
 
 class ClearUrlBarTextButton extends React.Component<{ urlBarText: string, updateUrlBarText: typeof updateUrlBarText, } & ToolbarButtonProps, {}> {
     private readonly onClearButtonPress = () => {
-        this.props.updateUrlBarText({ text: "", fromNavigationEvent: false });
+        this.props.updateUrlBarText("",false);
     };
 
     render(){
@@ -52,7 +54,7 @@ class ClearUrlBarTextButton extends React.Component<{ urlBarText: string, update
 const ClearUrlBarTextButtonConnected = connect(
     (wholeStoreState: WholeStoreState) => {
         // console.log(`wholeStoreState`, wholeStoreState);
-        const { urlBarText } = wholeStoreState.navigation;
+        const { urlBarText } = wholeStoreState.navigation1;
 
         return {
             urlBarText,
@@ -75,7 +77,7 @@ interface DisplayTextFieldProps {
 // https://github.com/cliqz/user-agent-ios/blob/develop/Client/Frontend/Browser/TabLocationView.swift#L319
 class DisplayTextField extends React.Component<DisplayTextFieldProps & TextInputProps, {}> {
     private readonly onChangeText = (text: string) => {
-        this.props.updateUrlBarText({ text, fromNavigationEvent: false });
+        this.props.updateUrlBarText( text, false );
     };
 
     private readonly onSubmitEditing = (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => {
@@ -114,7 +116,7 @@ class DisplayTextField extends React.Component<DisplayTextFieldProps & TextInput
 const DisplayTextFieldConnected = connect(
     (wholeStoreState: WholeStoreState) => {
         // console.log(`wholeStoreState`, wholeStoreState);
-        const { activeTab, urlBarText } = wholeStoreState.navigation;
+        const { activeTab, urlBarText } = wholeStoreState.navigation1;
 
         return {
             activeTab,
@@ -313,7 +315,7 @@ export class TabLocationView extends React.Component<Props & Omit<ViewProps, "st
                 <ClearUrlBarTextButtonConnected
                     containerStyle={{
                         /* TODO: hide this button altogether in compact mode. */
-                        display: urlBarText.length > 0 ? "flex": "none",
+                        display: urlBarText &&  urlBarText.length > 0 ? "flex": "none",
                         /* Nothing to do with animation; just my lazy way of making it more compact. */
                         transform: [
                             { scaleX: 0.80 },
@@ -339,15 +341,20 @@ export class TabLocationView extends React.Component<Props & Omit<ViewProps, "st
     }
 }
 
+
+
+const mapStateToprops = (state:any)=>{
+    console.log("state",state,state.navigation1.tabs[state.navigation1.activeTab].isSecure)
+  return { orientation: state.ui.orientation,
+    urlBarText: state.navigation1.urlBarText,
+    activeTabIsSecure: state.navigation1.tabs[state.navigation1.activeTab].isSecure,}
+}
+
+
+
+
 export const TabLocationViewConnected = connect(
-    (wholeStoreState: WholeStoreState) => {
-        // console.log(`wholeStoreState.navigation.urlBarText`, wholeStoreState.navigation.urlBarText);
-        return {
-            orientation: wholeStoreState.ui.orientation,
-            urlBarText: wholeStoreState.navigation.urlBarText,
-            activeTabIsSecure: wholeStoreState.navigation.tabs[wholeStoreState.navigation.activeTab].isSecure,
-        };
-    },
+    mapStateToprops,
     {
         updateUrlBarText,
     },
